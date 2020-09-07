@@ -22,7 +22,7 @@ class Display extends PureComponent {
                 return data;
             }
             catch(e) {
-                console.log(`We encountered an error ${e}`);
+                console.log(`We encountered an error: ${e} while retrieving the video from API.`);
             }
         }
 
@@ -36,7 +36,7 @@ class Display extends PureComponent {
             }
         })
         .catch((e) => {
-            console.log(`We encountered an error ${e}`)
+            console.log(`We encountered an error: ${e} while getting video data.`)
         });
     }
 

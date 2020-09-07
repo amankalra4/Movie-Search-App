@@ -125,7 +125,10 @@ class Search extends Component {
             this.setState({pages: 0});
         }
         else if (event.target.name === 'checkbox') {
-            this.setState({check: !this.state.check});
+            // this.setState({check: !this.state.check});
+            this.setState((prevState) => {
+                return {check: !prevState.check}
+            })
             let getTrailerClass = document.getElementsByClassName('trailerButtonClass');
             if(this.state.check === true) {
                 document.body.style.backgroundColor = '#fbdb89';
@@ -156,11 +159,10 @@ class Search extends Component {
     showModal = (str) => {
         if(str !== '') {
             this.setState({modal_text: str});
-            this.setState({modal_show: !this.state.modal_show});
         }
-        else {
-            this.setState({modal_show: !this.state.modal_show});
-        }
+        this.setState((prevState) => {
+            return {modal_show: !prevState.modal_show}
+        })
     };
 
     render() {
