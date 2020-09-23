@@ -3,29 +3,27 @@ import './movie.css'
 import Display from './Display';
 import ErrorComp from './ErrorComp';
 import Modal from './Modal';
+import Spinner from './Spinner/Spinner';
 require('dotenv').config();
 let API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
 
 class Search extends Component {
     constructor(props) {
         super(props);
-        this.inputElementRef = React.createRef();
         this.state = {
             query: '',
             result_arr: [],
             last_movie_state: '',
             showComp: false,
-            check: false,
             modal_show: false,
             modal_text: '',
             pages: 0
         }
-        this.handleChange = this.handleChange.bind(this);
+        this.inputElementRef = React.createRef();
     }
 
     componentDidMount() {
         let mybutton = document.getElementById('myBtn');
-
         // When you scroll for 60px from top then show the button else dont show it.
         window.onscroll = function() {
             if (document.body.scrollTop > 60 || document.documentElement.scrollTop > 150) {
@@ -34,7 +32,6 @@ class Search extends Component {
                 mybutton.style.display = 'none';
             }
         };
-
         // When component is mounted then display it with #efeaea - white background
         document.body.style.backgroundColor = '#fbdb89'; 
         document.getElementById('root').style.backgroundColor = '#fbdb89';
@@ -45,7 +42,6 @@ class Search extends Component {
     handleSearchButton = (event) => {
 
         event.preventDefault();
-
         async function getMovie (movie_name_param) {
             try {
                 const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${movie_name_param}&page=1&include_adult=false`)
@@ -115,38 +111,13 @@ class Search extends Component {
         }
     }
 
-    handleChange(event) {
-        
+    handleChange = (event) => {
         if(event.target.name === 'query') {
             this.setState({query: event.target.value});
             this.setState({showComp: false});
             this.setState({last_movie_state: ''});
             this.setState({result_arr: []});
             this.setState({pages: 0});
-        }
-        else if (event.target.name === 'checkbox') {
-            // this.setState({check: !this.state.check});
-            this.setState((prevState) => {
-                return {check: !prevState.check}
-            })
-            let getTrailerClass = document.getElementsByClassName('trailerButtonClass');
-            if(this.state.check === true) {
-                document.body.style.backgroundColor = '#fbdb89';
-                document.getElementById('root').style.backgroundColor = '#fbdb89';
-                document.getElementById('root').style.color = '#000000';
-                for(let i = 0; i < getTrailerClass.length; i++) {
-                    getTrailerClass[i].style.color = '#19191b';
-                }
-            }
-            else {
-                // #19191b - black background
-                document.body.style.backgroundColor = '#19191b';
-                document.getElementById('root').style.backgroundColor = '#19191b';
-                document.getElementById('root').style.color = '#efeaea';
-                for(let i = 0; i < getTrailerClass.length; i++) {
-                    getTrailerClass[i].style.color = '#efeaea';
-                }
-            }
         }
     }
 
@@ -179,9 +150,8 @@ class Search extends Component {
 
         if(this.state.result_arr.length !== this.state.pages) {
             loadingText = (
-                <div 
-                    style = {{fontSize: '20px', textAlign: 'center', fontFamily: 'arial', margin: '40px'}}>
-                Loading...
+                <div>
+                    <Spinner/>
                 </div>
             );
         }
@@ -219,20 +189,6 @@ class Search extends Component {
                         </div>
                     </div>
                 </form>
-                        <label 
-                            htmlFor = 'toggle' 
-                            className = 'mode'>
-                            Dark Theme
-                        </label>
-                        <label className = 'switch' htmlFor = 'toggle'>
-                            <input 
-                                name = 'checkbox' 
-                                id = 'toggle' 
-                                value = {this.state.check} 
-                                type = 'checkbox'
-                                onChange = {this.handleChange} />
-                            <span className = 'slider round'></span>
-                        </label>
                 <ErrorComp>
                     {loadingText}
                     {displayComp}

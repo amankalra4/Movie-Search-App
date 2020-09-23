@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react';
+import './movie.css'
 import {PropTypes} from 'prop-types';
 import pic from './movie.jpg';
 import Pagination from './Pagination';
+
 
 class Display extends PureComponent {
 
@@ -106,7 +108,7 @@ class Display extends PureComponent {
                                 <div className = 'column'>
                                     {element.overview !== ''
                                     ?
-                                        <p style = {{textAlign: 'justify'}}>
+                                        <p style = {{textAlign: 'justify', marginRight: '10px'}}>
                                             <strong>Overview: </strong>
                                             {element.overview}
                                         </p>
