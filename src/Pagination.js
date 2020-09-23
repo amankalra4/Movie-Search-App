@@ -43,7 +43,7 @@ const Pagination = ({moviesArrayPerPage, totalMoviesArray, paginate, currentPage
     }, [currentPage_prop]);
 
     return (
-        <div>
+        <div style = {{textAlign: 'center'}}>
             {firstPage}
             <button id = {'pagination' + currentPage_prop}
                     onClick = {() => paginate(currentPage_prop)}
