@@ -49,7 +49,7 @@ function App () {
           <span className = 'slider round'></span>
         </label>
         <img className = 'logo' src = {homepic} alt = 'Alternate text' />
-        <h1 style = {{display: 'inline', marginLeft: '10px'}}>Cinemaite1</h1>
+        <h1 style = {{display: 'inline', marginLeft: '10px'}}>Cinemaite</h1>
       </div>
       <Search />
     </React.Fragment>
