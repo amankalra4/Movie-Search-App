@@ -29,7 +29,16 @@
     border: 0.5px solid rgb(12, 12, 12);
 }
 
+.overview {
+    margin: 0;
+}
+
+.movieNameDiv {
+    margin: 0;
+}
+
 .rating {
+    padding-left: 5%;
     margin: 0;
 }
 
@@ -65,7 +74,8 @@
         margin: 10px 0px;
     }
     .rating {
-        margin: 0px;
+        padding: 5px;
+        margin: 0;
     }
     .trailerDiv {
         margin-left: 15px;
