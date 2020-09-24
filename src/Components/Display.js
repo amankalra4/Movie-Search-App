@@ -60,7 +60,7 @@ const Display = (props) => {
                     <div key = {element.id} className = {styles.moviesDiv}>
                     <div className = {styles.row}>
                         
-                        <div className = {styles.column}>
+                        <div className = {`${styles.column} ${styles.movieNameDiv}`}>
                             <p>
                                 <strong>Movie: </strong>
                                 {element.title}
@@ -97,7 +97,7 @@ const Display = (props) => {
                             }
                         </div>
                         
-                        <div className = {styles.column}>
+                        <div className = {`${styles.column} ${styles.overview}`}>
                             {element.overview !== ''
                             ?
                                 <p style = {{textAlign: 'justify'}}>
