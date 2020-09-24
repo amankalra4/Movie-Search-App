@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const Pagination = ({moviesArrayPerPage, totalMoviesArray, paginate, currentPage_prop}) => {
+const Pagination = ({totalMoviesArray, paginate, currentPage_prop}) => {
     
     const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(totalMoviesArray/moviesArrayPerPage); i++) {
+    for (let i = 1; i <= totalMoviesArray; i++) {
         pageNumbers.push(i);
     }
 
@@ -20,19 +20,30 @@ const Pagination = ({moviesArrayPerPage, totalMoviesArray, paginate, currentPage
         fontSize: '15px'
     };
 
+    const buttonClass  = {
+        margin: '20px 10px',
+        padding: '1px 10px',
+        cursor: 'pointer',
+        borderRadius: '5px',
+        outline: 'none',
+        border: '0',
+        fontWeight: 'lighter',
+        fontSize: '15px'
+    };
+
     let firstPage = null, lastPage = null;
     if(currentPage_prop !== 1) {
         firstPage = (
             <React.Fragment>
                 <button style = {stylePagination} onClick = {() => paginate(1)}>1</button>
-                <button className = 'buttonClass' onClick = {() => paginate(currentPage_prop - 1)}>{'<<'}</button>
+                <button style = {buttonClass} onClick = {() => paginate(currentPage_prop - 1)}>{'<<'}</button>
             </React.Fragment>
         );
     }
     if(currentPage_prop !== pageNumbers.length && currentPage_prop <= pageNumbers.length - 6) {
         lastPage = (
             <React.Fragment>
-                <button className = 'buttonClass' onClick = {() => paginate(currentPage_prop + 1)}>{'>>'}</button>
+                <button style = {buttonClass} onClick = {() => paginate(currentPage_prop + 1)}>{'>>'}</button>
                 <button style = {stylePagination} onClick = {() => paginate(pageNumbers.length)}>{pageNumbers.length}</button>
             </React.Fragment>
         );
@@ -64,7 +75,6 @@ const Pagination = ({moviesArrayPerPage, totalMoviesArray, paginate, currentPage
 }
 
 Pagination.propTypes = {
-    moviesArrayPerPage: PropTypes.number,
     totalMoviesArray: PropTypes.number,
     paginate: PropTypes.func,
     currentPage_prop: PropTypes.number   
