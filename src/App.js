@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import './App.css';
-import Search from './Search';
-import homepic from './HomePage.png';
+import Search from './Conatiners/Search';
+import homepic from './Logos/HomePage.png';
 
 function App () {
 
   const [check, setCheck] = useState(false);
 
   const handleChange = () => {
-    setCheck(!check);
+    setCheck(prevState =>  !prevState);
     let getTrailerClass = document.getElementsByClassName('trailerButtonClass');
     if(check === true) {
       document.body.style.backgroundColor = '#fbdb89';

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import './movie.css'
-import Display from './Display';
 import ErrorComp from './ErrorComp';
-import Modal from './Modal';
-import Spinner from './Spinner/Spinner';
+import Modal from '../Components/Modal';
+import Spinner from '../Spinner/Spinner';
+import Display from '../Components/Display';
 require('dotenv').config();
 let API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
 
@@ -122,9 +122,9 @@ class Search extends Component {
     }
 
     handleTopButton = () => {
-            // Whenever top button is clicked, then scroll back to top with 0px
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+        // Whenever top button is clicked, then scroll back to top with 0px
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
     }
 
     showModal = (str) => {
@@ -159,35 +159,29 @@ class Search extends Component {
         return (
             <div style = {{margin: '20px'}}>
                 <form onSubmit = {this.handleSearchButton}>
-                    <div className = 'row'>
-                        <div className = 'column mainElement'>
-                            <label 
-                                className = 'movie_label' 
-                                htmlFor = 'movie_search'>
-                                Enter movie here 
-                            </label>
-                            <input 
-                                className = 'movie_input' 
-                                id = 'movie_search' 
-                                ref = {this.inputElementRef}
-                                name = 'query' 
-                                autoComplete = 'off'
-                                spellCheck = 'false'
-                                value = {this.state.query} 
-                                type = 'text' 
-                                placeholder = 'Type movie name' 
-                                onChange = {this.handleChange} />
-                        </div>
-                        <div className = 'column mainElement'>
-                            <button className = 'search' type = 'submit'>
-                                Search
-                            </button>
-                            <Modal 
-                                show = {this.state.modal_show} 
-                                onClose = {this.showModal} 
-                                modal_text_prop = {this.state.modal_text} />
-                        </div>
-                    </div>
+                    <label 
+                        className = 'movie_label' 
+                        htmlFor = 'movie_search'>
+                        Enter movie here 
+                    </label>
+                    <input 
+                        className = 'movie_input' 
+                        id = 'movie_search' 
+                        ref = {this.inputElementRef}
+                        name = 'query' 
+                        autoComplete = 'off'
+                        spellCheck = 'false'
+                        value = {this.state.query} 
+                        type = 'text' 
+                        placeholder = 'Movie Name!' 
+                        onChange = {this.handleChange} />
+                    <button className = 'search' type = 'submit'>
+                        Search
+                    </button>
+                    <Modal 
+                        show = {this.state.modal_show} 
+                        onClose = {this.showModal} 
+                        modal_text_prop = {this.state.modal_text} />
                 </form>
                 <ErrorComp>
                     {loadingText}
