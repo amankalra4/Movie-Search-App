@@ -23,9 +23,13 @@
     margin-top: 10px;
 }
 
+.displayImage {
+    border: 0.5px solid rgb(12, 12, 12);
+}
+
 .alternateImageClass {
-    height: 15em;
-    width: 12em;
+    max-width: 30%;
+    height: auto;
     border: 0.5px solid rgb(12, 12, 12);
 }
 
@@ -80,5 +84,35 @@
     .trailerDiv {
         margin-left: 15px;
         margin-bottom: 10px;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .alternateImageClass {
+        max-width: 80%;
+    }
+}
+
+@media screen and (min-width: 301px) and (max-width: 399px) {
+    .alternateImageClass {
+        max-width: 50%;
+    }
+}
+
+@media screen and (min-width: 400px) and (max-width: 750px) {
+    .alternateImageClass {
+        max-width: 50%;
+    }
+}
+
+@media screen and (min-width: 800px) and (max-width: 999px) {
+    .alternateImageClass {
+        max-width: 20%;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .alternateImageClass {
+        max-width: 60%;
     }
 }

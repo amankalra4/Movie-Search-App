@@ -2,22 +2,19 @@ import React, { useState } from 'react';
 import styles from './Display.module.css'
 import {PropTypes} from 'prop-types';
 import pic from '../Logos/movie.jpg'
-import Pagination from './Pagination';
-
+import { TRAILER_URL } from '../constants/URLs';
 
 const Display = (props) => {
-    const [currentPage, setCurrentPage] = useState(1);
-
     const youtube = (id) => {
         const url = `https://www.youtube.com/watch?v=${id}`;
         window.open(url, '_blank');
     }
 
     const getVideo = (id) => {
-        const {movie_api} = props;
         async function getVideos(movie_id) {
             try {
-                const res = await fetch(`https://api.themoviedb.org/3/movie/${movie_id}/videos?api_key=${movie_api}`);
+                let trailerUrl = TRAILER_URL.replace('%s', movie_id);
+                const res = await fetch(trailerUrl);
                 const data = await res.json();
                 return data;
             }
@@ -40,23 +37,13 @@ const Display = (props) => {
         });
     }
 
-    const paginate_func = (number) => {
-        setCurrentPage(number)
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-    };
-
-    const indexOfLastMovie = currentPage;
-    const indexOfFirstMovie = indexOfLastMovie - 1;
-
     return (
         <div>
-            {props.movie_list.includes('This is default props')
+            {(props.movie_list.length === 0 || props.movie_list.includes('This is default props'))
             ?
-                <p className = {styles.defaultProp}>Sorry! We couldn't find your data.<br/>
-                                                Please try after sometime!</p>
+                <p className = {styles.defaultProp}>Thanks for visiting! We couldn't find more movies.</p>
             :   
-                props.movie_list[indexOfFirstMovie].map((element) =>
+                props.movie_list.map((element) =>
                     <div key = {element.id} className = {styles.moviesDiv}>
                     <div className = {styles.row}>
                         
@@ -86,7 +73,7 @@ const Display = (props) => {
                                 <img 
                                     src = {`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${element.poster_path}`}
                                     alt = 'Alternate text' 
-                                    style = {{border: '0.5px solid black'}} 
+                                    className = {styles.displayImage}
                                     title = {element.title} />
                             :
                                 <img 
@@ -139,10 +126,6 @@ const Display = (props) => {
                     </div>
                 </div>
             )}
-            <Pagination 
-                totalMoviesArray = {props.movie_list.length} 
-                paginate = {paginate_func}
-                currentPage_prop = {currentPage} />
         </div>
     );
 
@@ -150,12 +133,10 @@ const Display = (props) => {
 
 Display.defaultProps = {
     movie_list: ['This is default props', 'Please try after sometime', 'Thanks for the patience'],
-    movie_api: 'Invalid API key',
 }
 
 Display.propTypes = {
     movie_list: PropTypes.array,
-    movie_api: PropTypes.string.isRequired,
 }
 
 export default React.memo(Display);

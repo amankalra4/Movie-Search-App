@@ -32,6 +32,7 @@
 }
 
 .movie_input {
+  width: 30%;
   margin-left: 10px;
   border-radius: 5px;
   border: 1px black solid;
@@ -53,42 +54,30 @@
   outline: none;
   cursor: pointer;
   margin-left: 20px;
+  /* display: inline-block; */
 }
 
 /* max width means if the width is < 390px then apply the below styles,
 else keep the above styles */
 
-@media screen and (max-width: 506px) {
-  .search {
-    margin: 10px auto;
-    display: block;
-  }
-}
-
-@media screen and (max-width: 390px) {
-  .movie_input {
-    width: 40%;
-  }
-  .search {
-    margin: 10px auto;
-    display: block;
-  }
-}
-
-@media screen and (max-width: 320px) {
-  .movie_input {
-    width: 35%;
-  }
-}
-
-@media screen and (max-width: 290px) {
+@media screen and (max-width: 299px) {
   .movie_input {
     margin: 0;
-    width: 50%;
+    width: 45%;
   }
   .search {
     margin-left: 10px;
-    display: inline-block;
+  }
+}
+
+@media screen and (min-width: 300px) and (max-width: 500px) {
+  .movie_input {
+    margin: 0 10px;
+    width: 35%;
+  }
+  .search {
+    margin: 10px auto;
+    display: block;
   }
 }
 
