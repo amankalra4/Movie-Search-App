@@ -1,0 +1,27 @@
+.stylePagination {
+    display: inline-block;
+    margin: 20px 10px;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    outline: none;
+    border: 0;
+    font-weight: lighter;
+    font-size: 15px;
+}
+
+.buttonClass {
+    margin: 20px 10px;
+    padding: 1px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    outline: none;
+    border: 0;
+    font-weight: lighter;
+    font-size: 15px;
+}
+
+.paginationDiv {
+    text-align: center;
+    padding: 0 30px;
+}

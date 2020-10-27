@@ -20,8 +20,9 @@ function Modal({show, onClose, modal_text_prop}) {
     }
     
     return (
-        <div id='myModal' className='modal' name = 'modalDiv' onClick = {change}>
+        <div className='modal' onClick = {change}>
             <div className='modal-content' style = {{margin: height_px}}>
+                {/* &times; dispalys the x symbol on the modal window */}
                 <span className='close'>&times;</span>
                 <p style = {{color: 'black'}}>{modal_text_prop}</p>
             </div>

@@ -4,8 +4,8 @@ import ErrorComp from './ErrorComp';
 import Modal from '../Components/Modal';
 import Spinner from '../Spinner/Spinner';
 import Display from '../Components/Display';
-require('dotenv').config();
-let API_KEY = process.env.REACT_APP_MOVIE_API_KEY;
+import { MOVIE_LIST_URL, MOVIES_PAGE } from '../constants/URLs';
+import Pagination from '../Components/Pagination';
 
 class Search extends Component {
     constructor(props) {
@@ -17,7 +17,9 @@ class Search extends Component {
             showComp: false,
             modal_show: false,
             modal_text: '',
-            pages: 0
+            pages: 0,
+            currentPage: 0,
+            clicked: false
         }
         this.inputElementRef = React.createRef();
     }
@@ -40,11 +42,12 @@ class Search extends Component {
     }
 
     handleSearchButton = (event) => {
-
         event.preventDefault();
+        this.setState({clicked: true});
         async function getMovie (movie_name_param) {
             try {
-                const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${movie_name_param}&page=1&include_adult=false`)
+                let moviesUrl = MOVIE_LIST_URL.replace('%s', movie_name_param);
+                const res = await fetch(moviesUrl);
                 const data = await res.json();
                 return data;
             }
@@ -62,18 +65,11 @@ class Search extends Component {
                     this.showModal(`We couldn't find a movie by this name`);
                 }
                 else if (data1.total_pages >= 1) {
-                    this.setState({pages: data1.total_pages})
-                    for (let i = 1; i <= data1.total_pages; i++) {
-                        this.newMethod(i, current_movie)
-                        .then((total_data) => {
-                            this.setState({result_arr: [...this.state.result_arr, total_data]});
-                            this.setState({showComp: true});
-                        })
-                        .catch((e) => {
-                            console.log(`We encountered an error while getting the current movie data: ${e}`)
-                        });
-                    }
+                    this.setState({pages: data1.total_pages});
+                    this.setState({result_arr: data1.results});
+                    this.setState({currentPage: data1.page});
                     this.setState({last_movie_state: current_movie});
+                    this.setState({showComp: true});
                 }
                 else if(data1.status_code === 7) {
                     this.showModal('Please check your API key.');
@@ -85,7 +81,7 @@ class Search extends Component {
                 }
             })
             .catch((e) => {
-                console.log(`We encountered an error ${e}`)
+                console.log(`We encountered an error ${e}`);
             });
         }
         else if (current_movie === '') {
@@ -102,12 +98,13 @@ class Search extends Component {
 
     newMethod = async (pages, movie) => {
         try {
-                const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=en-US&query=${movie}&page=${pages}&include_adult=false`);
+                let newPageMovies = MOVIES_PAGE.replace('%s1', movie).replace('%s2', pages);
+                const res = await fetch(newPageMovies);
                 const data = await res.json();
-                return data.results;
+                return data;
             }
         catch (e) {
-            console.log(`We encountered an error while getting movie pages data: ${e}`)
+            console.log(`We encountered an error while getting movie pages data: ${e}`);
         }
     }
 
@@ -117,7 +114,7 @@ class Search extends Component {
             this.setState({showComp: false});
             this.setState({last_movie_state: ''});
             this.setState({result_arr: []});
-            this.setState({pages: 0});
+            this.setState({clicked: false});
         }
     }
 
@@ -136,19 +133,38 @@ class Search extends Component {
         })
     };
 
-    render() {
-        let displayComp = null, loadingText = null;
+    paginate_func = (number) => {
+        this.newMethod(number, this.state.last_movie_state)
+        .then( data1 => {
+            this.setState({result_arr: data1.results});
+            this.setState({pages: data1.total_pages})
+            this.setState({currentPage: number});
+            this.setState({showComp: true});
+        })
+        .catch(e => console.log(`We encountered an error while navigating movies: ${e}`));
+        this.setState({currentPage: number});
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    };
 
-        if(this.state.showComp === true && this.state.query !== '' && this.state.result_arr.length === this.state.pages) {
+    render() {
+        let displayComp = null, loadingText = null, pageNumbers = null;
+
+        if(this.state.showComp === true && this.state.query !== '') {
             displayComp = (
                 <Display 
                     movie_list = {this.state.result_arr} 
-                    movie_api = {API_KEY} 
                     onCloseProp = {this.showModal}/>
+            );
+            pageNumbers = (
+                <Pagination 
+                    totalMoviesArray = {this.state.pages} 
+                    paginate = {this.paginate_func}
+                    currentPage_prop = {this.state.currentPage} />
             );
         }
 
-        if(this.state.result_arr.length !== this.state.pages) {
+        if(!this.state.showComp && this.state.clicked && this.state.modal_text === '') {
             loadingText = (
                 <div>
                     <Spinner/>
@@ -186,6 +202,7 @@ class Search extends Component {
                 <ErrorComp>
                     {loadingText}
                     {displayComp}
+                    {pageNumbers}
                 </ErrorComp>
                 <button id = 'myBtn' onClick = {this.handleTopButton}>Top</button>
             </div>

@@ -12,6 +12,8 @@ configure({ adapter: new Adapter() });
 // configure is to cinfigure our enzyme.
 // shallow is a function from enzyme which will create instance of our component.
 
+// If we want to test the child components which is not possible via shallow. So we can use mount() method
+
 // We will work here with the help of Test Driven Development, which means first we will make the test
 // fail and afterwards we make it pass by writing correct code or passing correct params.
 
@@ -59,9 +61,8 @@ describe('App Testing', () => {
     expect(wrapper.find('.slider.round').type()).toEqual('span');
   })
 
-  // test('checking the click behavior of toggle button', () => {
-  //   wrapper.find('#toggle').simulate('click');
-
-  // })
+  test('checking the click behavior of toggle button', () => {
+    wrapper.find('#toggle').simulate('click');
+  })
 
 })
