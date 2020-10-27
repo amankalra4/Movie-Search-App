@@ -12,7 +12,7 @@ class Search extends Component {
         super(props);
         this.state = {
             query: '',
-            result_arr: [],
+            result_arr: {},
             last_movie_state: '',
             showComp: false,
             modal_show: false,
@@ -66,7 +66,7 @@ class Search extends Component {
                 }
                 else if (data1.total_pages >= 1) {
                     this.setState({pages: data1.total_pages});
-                    this.setState({result_arr: data1.results});
+                    this.setState({result_arr: {...this.state.result_arr, [data1.page]: data1.results}});
                     this.setState({currentPage: data1.page});
                     this.setState({last_movie_state: current_movie});
                     this.setState({showComp: true});
@@ -113,8 +113,11 @@ class Search extends Component {
             this.setState({query: event.target.value});
             this.setState({showComp: false});
             this.setState({last_movie_state: ''});
-            this.setState({result_arr: []});
+            this.setState({result_arr: {}});
             this.setState({clicked: false});
+            if(this.state.modal_text !== '') {
+                this.setState({modal_text: ''});
+            }
         }
     }
 
@@ -134,17 +137,24 @@ class Search extends Component {
     };
 
     paginate_func = (number) => {
-        this.newMethod(number, this.state.last_movie_state)
-        .then( data1 => {
-            this.setState({result_arr: data1.results});
-            this.setState({pages: data1.total_pages})
+        if(!this.state.result_arr.hasOwnProperty(number))
+        {
+            this.setState({showComp: false});
+            this.newMethod(number, this.state.last_movie_state)
+            .then( data1 => {
+                this.setState({result_arr: {...this.state.result_arr, [data1.page]: data1.results}});
+                this.setState({pages: data1.total_pages})
+                this.setState({currentPage: number});
+                this.setState({showComp: true});
+            })
+            .catch(e => console.log(`We encountered an error while navigating movies: ${e}`));
             this.setState({currentPage: number});
-            this.setState({showComp: true});
-        })
-        .catch(e => console.log(`We encountered an error while navigating movies: ${e}`));
-        this.setState({currentPage: number});
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+        else {
+            this.setState({currentPage: number});
+        }
     };
 
     render() {
@@ -153,7 +163,7 @@ class Search extends Component {
         if(this.state.showComp === true && this.state.query !== '') {
             displayComp = (
                 <Display 
-                    movie_list = {this.state.result_arr} 
+                    movie_list = {this.state.result_arr[this.state.currentPage]} 
                     onCloseProp = {this.showModal}/>
             );
             pageNumbers = (
