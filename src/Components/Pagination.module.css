@@ -25,3 +25,9 @@
     text-align: center;
     padding: 0 30px;
 }
+
+@media screen and (max-width: 415px) {
+    .paginationDiv {
+        padding: 0 40px;
+    }  
+}
