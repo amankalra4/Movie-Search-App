@@ -21,6 +21,7 @@
 
 .formContainer {
   display: flex;
+  justify-content: center;
 }
 
 .movie_label {
