@@ -183,13 +183,8 @@ class Search extends Component {
         }
 
         return (
-            <div style = {{margin: '20px'}}>
-                <form onSubmit = {this.handleSearchButton}>
-                    <label 
-                        className = 'movie_label' 
-                        htmlFor = 'movie_search'>
-                        Enter movie here 
-                    </label>
+            <div style = {{margin: '32px 10px 0'}}>
+                <form onSubmit = {this.handleSearchButton} className="formContainer">
                     <input 
                         className = 'movie_input' 
                         id = 'movie_search' 
