@@ -40,7 +40,6 @@
   width: 30%;
   border-radius: 5px;
   border: 1px black solid;
-  font-weight: lighter;
   font-size: 15px;
   letter-spacing: 1px;
   outline: none;
@@ -53,7 +52,6 @@
   border-radius: 5px;
   border: 1px black solid;
   padding: 5px 10px;
-  font-weight: lighter;
   font-size: 15px;
   letter-spacing: 2px;
   outline: none;
@@ -85,7 +83,7 @@ else keep the above styles */
     justify-content: space-between;
   }
   .movie_input {
-    width: 50%;
+    width: 65%;
   }
 }
 
