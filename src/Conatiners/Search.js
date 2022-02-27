@@ -194,7 +194,7 @@ class Search extends Component {
                         spellCheck = 'false'
                         value = {this.state.query} 
                         type = 'text' 
-                        placeholder = 'Movie Name!' 
+                        placeholder = 'Search for a movie name!' 
                         onChange = {this.handleChange} />
                     <button className = 'search' type = 'submit'>
                         Search
